@@ -2,6 +2,7 @@ const express = require('express');
 const router=express.Router();
 
 const mycontroller= require('../controller/controller');
+const uplode = require('../melter/uplods_file');
 
 // router.get('/',mycontroller.ragistation);
 router.post('/usr',mycontroller.createuser);
@@ -18,5 +19,7 @@ router.get('/api1',mycontroller.api1,mycontroller.api2);
 
 router.post('/dummylogin',mycontroller.dummyLogin);
 router.post('/checkOE',mycontroller.validatetoken,mycontroller.checkEvenOd);
+
+router.post('/usr-uplodeimage',  uplode.array('files'), mycontroller.uplodeimage)
 
 module.exports=router

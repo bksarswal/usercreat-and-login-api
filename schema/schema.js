@@ -24,6 +24,13 @@ password : {
     type: String,
 require:true
 }
+,
+
+profile_pic:{
+    type:String,
+    default:" "
+
+}
 
 
 

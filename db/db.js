@@ -9,7 +9,7 @@ db.on('err',()=>{
     
 })
 
-db.once('open',()=>{
+db.on('open',()=>{
 
     console.log('mongodb is sucassfully conected');
     

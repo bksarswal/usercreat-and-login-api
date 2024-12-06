@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt= require("jsonwebtoken");
 const privatkey = "sikretkey";
 
+
 exports.ragistation= (req,res)=>{
 
 
@@ -65,8 +66,8 @@ exports.createuser= (req,res)=>{
             else {
         
                   schema.insertMany( {  name: name , email:email,phone:phone ,password:hash }).then((result)=>{
-        // res.status(200).send({status:200,message:"usr succassegfully creatrt"});
-        res.redirect('/')
+        res.status(200).send({status:200,message:"usr succassegfully creatrt"});
+        // res.redirect('/')
         
         }).catch((err)=>{
         
@@ -459,7 +460,7 @@ exports.validatetoken=(req,res,next)=>{
 
 
     jwt.verify(token,privatkey,function(err,auth){
-
+ 
         if(err){
 
             if(err.name=='TokenExpiredError'){
@@ -512,3 +513,43 @@ exports.checkEvenOd = (req,res)=>{
     }
 }
    
+
+exports.uplodeimage= (req,res)=>{
+
+const {id}= req.body;
+console.log(req.files);
+  
+    schema.find({id:id}).then((result)=>{
+        console.log(result);
+        if(result.length==0){
+
+            res.send('user not found')
+        }
+        else{
+
+            const {profile_pic}=result[0];
+           
+            const static= `http://localhost:9999/static/${req.file_name}`
+            schema.updateOne({id:id}, { $set:{profile_pic:static}}).then((u_result)=>{
+
+                if(u_result.matchedCount==1){
+
+                    console.log(result);
+
+                    console.log(u_result);
+                    res.send('successfully update');
+                }
+                else{
+                    res.send('not update')
+                
+                }
+            }).catch((err)=>{
+                res.send('something went rong')
+            })
+        }
+
+    }).catch((err)=>{
+
+res.send('somethong went rong')
+    })
+}
