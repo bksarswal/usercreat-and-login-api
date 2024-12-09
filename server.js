@@ -5,7 +5,8 @@ const PORT = 9999;
 const bodyParser = require('body-parser')
 const myrouter = require('./router/router');
 const mongoose= require('./db/db');
-const schema= require('./schema/schema');
+
+// const sendMail= require('./mailer/mailer')
 // const uplode= require('./multer/uplodes');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));

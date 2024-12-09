@@ -4,6 +4,11 @@ const jwt= require("jsonwebtoken");
 const privatkey = "sikretkey";
 
 
+
+
+const mailschema = require('../schema/mailschema');
+const sendMail= require('../mailer/mailer');
+
 exports.ragistation= (req,res)=>{
 
 
@@ -66,7 +71,7 @@ exports.createuser= (req,res)=>{
             else {
         
                   schema.insertMany( {  name: name , email:email,phone:phone ,password:hash }).then((result)=>{
-        res.status(200).send({status:200,message:"usr succassegfully creatrt"});
+             res.status(200).send({status:200,message:"usr creaste successfully"});
         // res.redirect('/')
         
         }).catch((err)=>{
@@ -299,6 +304,41 @@ exports.upadatePassword = (req,res)=>{
             res.status(404).send({status:404,message:"something went rong"});
         })
     }
+}
+
+
+exports.restpassbyotp= (req,res)=>{
+
+
+
+    let otp=Math.floor(Math.random()*9000)+1000;
+
+    const {email}=req.body;
+    schema.find({email:email}).then((result)=>
+        {  
+        if(result.length==0){
+
+            res.status(400).send({status:200,message:"user note found"})
+        }
+        else{
+
+            console.log('yahse-0');
+          
+          
+            console.log('yahse1');
+            mailschema.insertMany({id:result[0].id ,otp:otp}).then(()=>{
+            res.status(200).send({status:200,message:"otp save successfully"})
+        
+            }).catch((err)=>{
+           
+                res.send('soemthong went rong')
+            });
+            sendMail(result[0].email, otp);
+        }
+    }).catch((err)=>{
+        console.log('yahse3');
+        res.send('soemthong went rong')
+    })
 }
 
 exports.deletuser=(req,res)=>{
@@ -553,3 +593,4 @@ console.log(req.files);
 res.send('somethong went rong')
     })
 }
+

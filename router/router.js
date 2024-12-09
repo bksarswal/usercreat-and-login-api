@@ -21,5 +21,6 @@ router.post('/dummylogin',mycontroller.dummyLogin);
 router.post('/checkOE',mycontroller.validatetoken,mycontroller.checkEvenOd);
 
 router.post('/usr-uplodeimage',  uplode.array('files'), mycontroller.uplodeimage)
+router.post('/reset-passby-otp' , mycontroller.restpassbyotp);
 
-module.exports=router
+module.exports=router;
